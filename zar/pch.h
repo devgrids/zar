@@ -10,4 +10,6 @@
 // agregue aquí los encabezados que desea precompilar
 #include "framework.h"
 
+#include <string>
+
 #endif //PCH_H
