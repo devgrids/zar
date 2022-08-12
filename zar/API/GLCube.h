@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-class GLCube
+class __declspec(dllexport) GLCube
 {
 public:
     

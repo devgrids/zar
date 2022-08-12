@@ -2,7 +2,7 @@
 
 namespace zar
 {
-    class IApplication
+    class __declspec(dllexport) IApplication
     {
     public:
         inline virtual ~IApplication() = default;
