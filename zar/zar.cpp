@@ -1,12 +1,14 @@
 ﻿#include "zar.h"
 
+#include <utility>
+
 zar::Zar::Zar()
 {
 }
 
 zar::Zar::Zar(std::string name_class)
 {
-    this->name_class = name_class;
+    this->name_class = std::move(name_class);
     this->show_class();
 }
 

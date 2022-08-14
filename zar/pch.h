@@ -15,16 +15,12 @@
 #include <sstream>
 #include <cstdlib>
 
+#include <stb_image.h>
 #include <GL/glew.h>
 #include <spdlog/spdlog.h>
+#include <glm/glm.hpp>
 
 #include "zar.h"
-
-// #define FX_PLATFORM_WINDOWS 
-// #define FX_BUILD_DLL 
-
-
-
 
 
 #endif //PCH_H

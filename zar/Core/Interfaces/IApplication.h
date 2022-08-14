@@ -3,8 +3,6 @@
 #ifndef I_APPLICATION_H
 #define I_APPLICATION_H
 
-#include "../../zar.h"
-
 namespace zar
 {
     class ZAR_API IApplication
@@ -17,8 +15,8 @@ namespace zar
         inline virtual void update() = 0;
         inline virtual void render() = 0;
 
-        int _width{};
-        int _height{};
+        int width{};
+        int height{};
     };
 }
 #endif

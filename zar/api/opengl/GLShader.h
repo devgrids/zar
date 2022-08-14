@@ -3,7 +3,7 @@
 #ifndef GL_SHADER_H
 #define GL_SHADER_H
 
-#include "../zar.h"
+#include "../../zar.h"
 
 namespace zar
 {

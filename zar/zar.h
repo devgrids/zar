@@ -3,6 +3,8 @@
 #ifndef ZAR_H
 #define ZAR_H
 
+#define ZAR_INLINE inline
+
 #ifdef FX_PLATFORM_WINDOWS
     #ifdef FX_BUILD_DLL
         #define ZAR_API __declspec(dllexport)

@@ -62,15 +62,15 @@ namespace zar
 
     void GLShader::set_bool(const std::string& name, const bool value) const
     {
-        glUniform1i(glGetUniformLocation(id, name.c_str()), (int)value);
+        glUniform1i(glGetUniformLocation(id, name.c_str()), static_cast<int>(value));
     }
 
-    void GLShader::set_int(const std::string& name, int value) const
+    void GLShader::set_int(const std::string& name, const int value) const
     {
         glUniform1i(glGetUniformLocation(id, name.c_str()), value);
     }
 
-    void GLShader::set_float(const std::string& name, float value) const
+    void GLShader::set_float(const std::string& name, const float value) const
     {
         glUniform1f(glGetUniformLocation(id, name.c_str()), value);
     }
