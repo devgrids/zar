@@ -26,12 +26,13 @@ include_directories(
                     vendor/glfw/include/ 
                     vendor/glm/ 
                     vendor/stb/ 
-                    vendor/spdlog/include/
+                    vendor/spdlog/include/ 
                    )
 
-
-
 add_library(zar SHARED ${DLL})
+
+target_compile_definitions(zar PUBLIC FX_PLATFORM_WINDOWS)
+target_compile_definitions(zar PUBLIC FX_BUILD_DLL)
 
 target_link_libraries(zar PUBLIC assimp glfw libglew_shared spdlog)
 

@@ -11,5 +11,20 @@
 #include "framework.h"
 
 #include <string>
+#include <fstream>
+#include <sstream>
+#include <cstdlib>
+
+#include <GL/glew.h>
+#include <spdlog/spdlog.h>
+
+#include "zar.h"
+
+// #define FX_PLATFORM_WINDOWS 
+// #define FX_BUILD_DLL 
+
+
+
+
 
 #endif //PCH_H
