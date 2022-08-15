@@ -10,7 +10,8 @@ zar::GLCamera::GLCamera(glm::vec3 position, glm::vec3 up, float yaw, float pitch
     update_camera_vectors();
 }
 
-zar::GLCamera::GLCamera(float pos_x, float pos_y, float pos_z, float up_x, float up_y, float up_z, float yaw, float pitch)
+zar::GLCamera::GLCamera(float pos_x, float pos_y, float pos_z, float up_x, float up_y, float up_z, float yaw,
+                        float pitch)
     : front(glm::vec3(0.0f, 0.0f, -1.0f)), movement_speed(SPEED), mouse_sensitivity(SENSITIVITY), zoom(ZOOM)
 {
     position = glm::vec3(pos_x, pos_y, pos_z);
@@ -18,6 +19,11 @@ zar::GLCamera::GLCamera(float pos_x, float pos_y, float pos_z, float up_x, float
     this->yaw = yaw;
     this->pitch = pitch;
     update_camera_vectors();
+}
+
+zar::GLCamera::~GLCamera()
+{
+    spdlog::info("~GLCamera() destroyed!");
 }
 
 glm::mat4 zar::GLCamera::get_view_matrix() const
