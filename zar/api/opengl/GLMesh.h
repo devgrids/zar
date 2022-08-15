@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#ifndef GL_SHADER_H
-#define GL_SHADER_H
+#ifndef GL_MESH_H
+#define GL_MESH_H
 
 #include "../../data/Vertex.h"
 
