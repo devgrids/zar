@@ -15,12 +15,10 @@
 #include <sstream>
 #include <cstdlib>
 
-#include <stb_image.h>
 #include <GL/glew.h>
 #include <spdlog/spdlog.h>
 #include <glm/glm.hpp>
 
 #include "zar.h"
-
 
 #endif //PCH_H

@@ -27,6 +27,7 @@ include_directories(
                     vendor/glm/ 
                     vendor/stb/ 
                     vendor/spdlog/include/ 
+			  zar/
                    )
 
 add_library(zar SHARED ${DLL})

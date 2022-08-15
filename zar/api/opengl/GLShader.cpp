@@ -29,6 +29,8 @@ namespace zar
         catch (std::ifstream::failure& e)
         {
             spdlog::error("SHADER::FILE_NOT_SUCCESFULLY_READ: {}", e.what());
+            spdlog::error("SHADER VERTEX PATH {}", vertex_path);
+            spdlog::error("SHADER FRAGMENT PATH {}", fragment_path);
         }
         const char* v_shader_code = vertex_code.c_str();
         const char* f_shader_code = fragment_code.c_str();
@@ -73,6 +75,11 @@ namespace zar
     void GLShader::set_float(const std::string& name, const float value) const
     {
         glUniform1f(glGetUniformLocation(id, name.c_str()), value);
+    }
+
+    void GLShader::set_mat4(const std::string& name, const glm::mat4& mat) const
+    {
+        glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, GL_FALSE, &mat[0][0]);
     }
 
     void GLShader::check_compile_errors(const unsigned shader, const std::string& type) const
