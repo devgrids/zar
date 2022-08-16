@@ -23,5 +23,5 @@ void zar::CameraComponent::start()
 void zar::CameraComponent::update()
 {
     IComponent::update();
-    spdlog::info("position: ({},{},{})", obj->position.x, obj->position.y, obj->position.z);
+    // spdlog::info("position: ({},{},{})", obj->position.x, obj->position.y, obj->position.z);
 }

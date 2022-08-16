@@ -57,6 +57,11 @@ namespace zar
         glDeleteShader(fragment);
     }
 
+    unsigned GLShader::get_id() const
+    {
+        return id;
+    }
+
     void GLShader::use() const
     {
         glUseProgram(id);
@@ -72,14 +77,51 @@ namespace zar
         glUniform1i(glGetUniformLocation(id, name.c_str()), value);
     }
 
-    void GLShader::set_float(const std::string& name, const float value) const
+    void GLShader::set_1f(const char* name, const float x) const
     {
-        glUniform1f(glGetUniformLocation(id, name.c_str()), value);
+        glUniform1f(glGetUniformLocation(id, name), x);
+    }
+
+    void GLShader::set_2f(const char* name, const float x, const float y) const
+    {
+        glUniform2f(glGetUniformLocation(id, name), x, y);
+    }
+
+    void GLShader::set_3f(const char* name, const float x, const float y, const float z) const
+    {
+        glUniform3f(glGetUniformLocation(id, name), x, y, z);
+    }
+
+    void GLShader::set_4f(const char* name, const float x, const float y, const float z, const float w) const
+    {
+        glUniform4f(glGetUniformLocation(id, name), x, y, z, w);
+    }
+
+    void GLShader::set_vec2(const char* name, const glm::vec2& v) const
+    {
+        glUniform2f(glGetUniformLocation(id, name), v.x, v.y);
+    }
+
+    void GLShader::set_vec3(const char* name, const glm::vec3& v) const
+    {
+        glUniform3f(glGetUniformLocation(id, name), v.x, v.y, v.z);
+    }
+
+    void GLShader::set_vec4(const char* name, const glm::vec4& v) const
+    {
+        glUniform4f(glGetUniformLocation(id, name), v.x, v.y, v.z, v.w);
     }
 
     void GLShader::set_mat4(const std::string& name, const glm::mat4& mat) const
     {
         glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+    }
+
+    void GLShader::set_sampler_2d(const char* name, uint32_t sampler, int unit) const
+    {
+        glActiveTexture(GL_TEXTURE0 + unit);
+        glBindTexture(GL_TEXTURE_2D, sampler);
+        glUniform1i(glGetUniformLocation(id, name), unit);
     }
 
     void GLShader::check_compile_errors(const unsigned shader, const std::string& type) const

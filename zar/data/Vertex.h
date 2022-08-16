@@ -2,17 +2,17 @@
 
 namespace zar
 {
+#define MAX_BONE_INFLUENCE 4
+    
     struct ZAR_API Vertex
     {
-        glm::vec3 position	= glm::vec3(0.0f);
-        glm::vec3 normal	= glm::vec3(0.0f);
+        glm::vec3 position = glm::vec3(0.0f);
+        glm::vec3 normal = glm::vec3(0.0f);
         glm::vec2 text_coords = glm::vec2(0.0f);
-        glm::vec3 tangent	= glm::vec3(0.0f);
+        glm::vec3 tangent = glm::vec3(0.0f);
         glm::vec3 bitangent = glm::vec3(0.0f);
-        glm::ivec4 bones	= glm::ivec4(-1);
-        glm::vec4 weights	= glm::vec4(0.0f);
-
-        ZAR_INLINE void set_bone_data(int id, float weight) ;
+        int bones[MAX_BONE_INFLUENCE];
+        float weights[MAX_BONE_INFLUENCE];
     };
 
     // typedefs
