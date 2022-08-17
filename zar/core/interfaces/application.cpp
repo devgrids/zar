@@ -1,4 +1,4 @@
-﻿#include "IApplication.h"
+﻿#include "application.h"
 
 zar::IApplication::~IApplication()
 {

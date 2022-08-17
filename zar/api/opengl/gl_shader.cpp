@@ -1,4 +1,4 @@
-﻿#include "GLShader.h"
+﻿#include "gl_shader.h"
 
 namespace zar
 {

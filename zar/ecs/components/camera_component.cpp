@@ -1,4 +1,4 @@
-﻿#include "CameraComponent.h"
+﻿#include "camera_component.h"
 
 zar::CameraComponent::~CameraComponent()
 {

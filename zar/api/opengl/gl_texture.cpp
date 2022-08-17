@@ -1,4 +1,4 @@
-﻿#include "GLTexture.h"
+﻿#include "gl_texture.h"
 
 zar::GLTexture::GLTexture(): width(0), height(0), internal_format(GL_RGB), image_format(GL_RGB), wrap_s(GL_REPEAT),
                              wrap_t(GL_REPEAT),

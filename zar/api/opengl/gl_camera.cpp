@@ -1,4 +1,4 @@
-﻿#include "GLCamera.h"
+﻿#include "gl_camera.h"
 
 zar::GLCamera::GLCamera(glm::vec3 position, glm::vec3 up, float yaw, float pitch)
     : front(glm::vec3(0.0f, 0.0f, -1.0f)), movement_speed(SPEED), mouse_sensitivity(SENSITIVITY), zoom(ZOOM)

@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "../../api/opengl/GLCamera.h"
-#include "../../core/interfaces/IComponent.h"
+#include "../../api/opengl/gl_camera.h"
+#include "../../core/interfaces/component.h"
 
 namespace zar
 {

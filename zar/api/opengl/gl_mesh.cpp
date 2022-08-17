@@ -1,4 +1,4 @@
-﻿#include "GLMesh.h"
+﻿#include "gl_mesh.h"
 
 zar::GLMesh::GLMesh(Vertices& vertices, Indices& indices, const bool enable_bones)
 {

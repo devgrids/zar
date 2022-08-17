@@ -1,4 +1,4 @@
-﻿#include "GLCube.h"
+﻿#include "gl_cube.h"
 
 zar::GLCube::GLCube()
 {
