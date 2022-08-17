@@ -35,19 +35,20 @@ namespace zar
     protected:
         
         ZAR_INLINE void set_vertex_bone_data_to_default(Vertex& vertex);
-        ZAR_INLINE virtual Mesh process_mesh(aiMesh* mesh, const aiScene* scene);
-        ZAR_INLINE vector<Vertex> get_vertices(const aiMesh* mesh, const aiScene* scene);
-        ZAR_INLINE vector<unsigned int> get_indices(const aiMesh* mesh, const aiScene* scene);
-        ZAR_INLINE virtual vector<Texture> process_materials(aiMesh* mesh, const aiScene* scene);
+        ZAR_INLINE virtual Mesh process_mesh(aiMesh* mesh);
+        ZAR_INLINE vector<Vertex> get_vertices(const aiMesh* mesh);
+        ZAR_INLINE vector<unsigned int> get_indices(const aiMesh* mesh);
+        ZAR_INLINE virtual vector<Material> process_materials(aiMesh* mesh);
         ZAR_INLINE void set_vertex_bone_data(Vertex& vertex, int bone_id, float weight);
-        ZAR_INLINE void extract_bone_weight_for_vertices(std::vector<Vertex>& vertices, const aiMesh* mesh, const aiScene* scene);
+        ZAR_INLINE void extract_bone_weight_for_vertices(std::vector<Vertex>& vertices, const aiMesh* mesh);
 
     public:
-        vector<Texture> textures_loaded;
+        // vector<zar::Material> materials;
         vector<Mesh> meshes;
         string directory;
         bool gamma_correction;
         const aiScene* scene{};
+        // vector<zar::Material> &materials;
 
     private:
         std::unordered_map<std::string, BoneInfo> m_bone_info_map_;

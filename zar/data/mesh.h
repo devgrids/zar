@@ -17,8 +17,15 @@ namespace zar
     struct Texture
     {
         unsigned int id;
-        std::string type;
         std::string path;
+    };
+
+    struct Material
+    {
+        Texture diffuse_map;
+        Texture specular_map;
+        Texture normal_map;
+        Texture height_map;
     };
 
     class Mesh
@@ -27,15 +34,15 @@ namespace zar
         // mesh Data
         std::vector<Vertex> vertices;
         std::vector<unsigned int> indices;
-        std::vector<Texture> textures;
+        std::vector<Material> materials;
         unsigned int VAO;
 
         // constructor
-        Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
+        Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Material> textures)
         {
             this->vertices = vertices;
             this->indices = indices;
-            this->textures = textures;
+            this->materials = textures;
 
             // now that we have all the required data, set the vertex buffers and its attribute pointers.
             setupMesh();
@@ -53,25 +60,14 @@ namespace zar
             unsigned int specularNr = 1;
             unsigned int normalNr = 1;
             unsigned int heightNr = 1;
-            for (unsigned int i = 0; i < textures.size(); i++)
+            for (unsigned int i = 0; i < materials.size(); i++)
             {
-                glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
-                // retrieve texture number (the N in diffuse_textureN)
+                glActiveTexture(GL_TEXTURE0 + i);
                 std::string number;
-                std::string name = textures[i].type;
-                if (name == "texture_diffuse")
-                    number = std::to_string(diffuseNr++);
-                else if (name == "texture_specular")
-                    number = std::to_string(specularNr++); // transfer unsigned int to string
-                else if (name == "texture_normal")
-                    number = std::to_string(normalNr++); // transfer unsigned int to string
-                else if (name == "texture_height")
-                    number = std::to_string(heightNr++); // transfer unsigned int to string
-
-                // now set the sampler to the correct texture unit
+                std::string name = "texture_diffuse";
+                number = std::to_string(diffuseNr++);
                 glUniform1i(glGetUniformLocation(shader.get_id(), (name + number).c_str()), i);
-                // and finally bind the texture
-                glBindTexture(GL_TEXTURE_2D, textures[i].id);
+                glBindTexture(GL_TEXTURE_2D, materials[i].diffuse_map.id);
             }
 
             // draw mesh

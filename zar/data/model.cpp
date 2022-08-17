@@ -3,6 +3,7 @@
 zar::Model::Model(const bool gamma)
     : gamma_correction(gamma)
 {
+
 }
 
 void zar::Model::draw(zar::GLShader& shader)
@@ -30,16 +31,16 @@ auto zar::Model::set_vertex_bone_data_to_default(Vertex& vertex) -> void
     }
 }
 
-zar::Mesh zar::Model::process_mesh(aiMesh* mesh, const aiScene* scene)
+zar::Mesh zar::Model::process_mesh(aiMesh* mesh)
 {
-    auto vertices = get_vertices(mesh, scene);
-    auto indices = get_indices(mesh, scene);
-    auto textures = process_materials(mesh, scene);
-    extract_bone_weight_for_vertices(vertices, mesh, scene);
+    auto vertices = get_vertices(mesh);
+    auto indices = get_indices(mesh);
+    auto textures = process_materials(mesh);
+    extract_bone_weight_for_vertices(vertices, mesh);
     return {vertices, indices, textures};
 }
 
-vector<zar::Vertex> zar::Model::get_vertices(const aiMesh* mesh, const aiScene* scene)
+vector<zar::Vertex> zar::Model::get_vertices(const aiMesh* mesh)
 {
     vector<Vertex> vertices;
     for (unsigned int i = 0; i < mesh->mNumVertices; i++)
@@ -64,7 +65,7 @@ vector<zar::Vertex> zar::Model::get_vertices(const aiMesh* mesh, const aiScene* 
     return vertices;
 }
 
-vector<unsigned> zar::Model::get_indices(const aiMesh* mesh, const aiScene* scene)
+vector<unsigned> zar::Model::get_indices(const aiMesh* mesh)
 {
     vector<unsigned int> indices;
     for (unsigned int i = 0; i < mesh->mNumFaces; i++)
@@ -76,7 +77,7 @@ vector<unsigned> zar::Model::get_indices(const aiMesh* mesh, const aiScene* scen
     return indices;
 }
 
-vector<zar::Texture> zar::Model::process_materials(aiMesh* mesh, const aiScene* scene)
+vector<zar::Material> zar::Model::process_materials(aiMesh* mesh)
 {
     return {};
 }
@@ -95,7 +96,7 @@ void zar::Model::set_vertex_bone_data(zar::Vertex& vertex, const int bone_id, co
     }
 }
 
-void zar::Model::extract_bone_weight_for_vertices(std::vector<Vertex>& vertices, const aiMesh* mesh, const aiScene* scene)
+void zar::Model::extract_bone_weight_for_vertices(std::vector<Vertex>& vertices, const aiMesh* mesh)
 {
     auto& bone_info_map = m_bone_info_map_;
     int& bone_count = m_bone_counter_;
