@@ -14,8 +14,6 @@ namespace zar
 {
 #define MAX_BONE_INFLUENCE 4
 
-    
-
     struct Texture
     {
         unsigned int id;
@@ -41,6 +39,10 @@ namespace zar
 
             // now that we have all the required data, set the vertex buffers and its attribute pointers.
             setupMesh();
+        }
+
+        Mesh()
+        {
         }
 
         // render the mesh
