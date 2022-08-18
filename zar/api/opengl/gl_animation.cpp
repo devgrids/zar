@@ -1,7 +1,10 @@
-﻿#include "animation.h"
+﻿#include "gl_animation.h"
 
-zar::Animation::Animation(const std::string& animation_path,
-                          std::unordered_map<std::string, zar::BoneInfo>& bone_info_map, int& bone_count)
+#include "data/anim_data.h"
+#include "data/bone.h"
+
+zar::GLAnimation::GLAnimation(const std::string& animation_path,
+                              std::unordered_map<std::string, zar::BoneInfo>& bone_info_map, int& bone_count)
 {
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile(animation_path, aiProcess_Triangulate);
@@ -15,10 +18,10 @@ zar::Animation::Animation(const std::string& animation_path,
     read_missing_bones(animation, bone_info_map, bone_count);
 }
 
-zar::Animation::~Animation()
+zar::GLAnimation::~GLAnimation()
 = default;
 
-zar::Bone* zar::Animation::find_bone(const std::string& name)
+zar::Bone* zar::GLAnimation::find_bone(const std::string& name)
 {
     const auto iter = std::find_if(m_bones_.begin(), m_bones_.end(),
                                    [&](const zar::Bone& Bone)
@@ -30,27 +33,27 @@ zar::Bone* zar::Animation::find_bone(const std::string& name)
     else return &(*iter);
 }
 
-float zar::Animation::get_ticks_per_second() const
+float zar::GLAnimation::get_ticks_per_second() const
 {
     return m_ticks_per_second_;
 }
 
-float zar::Animation::get_duration() const
+float zar::GLAnimation::get_duration() const
 {
     return m_duration_;
 }
 
-const zar::AssimpNodeData& zar::Animation::get_root_node()
+const zar::AssimpNodeData& zar::GLAnimation::get_root_node()
 {
     return m_root_node_;
 }
 
-const std::unordered_map<std::string, zar::BoneInfo>& zar::Animation::get_bone_id_map()
+const std::unordered_map<std::string, zar::BoneInfo>& zar::GLAnimation::get_bone_id_map()
 {
     return m_bone_info_map_;
 }
 
-void zar::Animation::read_missing_bones(const aiAnimation* animation,
+void zar::GLAnimation::read_missing_bones(const aiAnimation* animation,
                                       std::unordered_map<std::string, zar::BoneInfo>& bone_info_map, int& bone_count)
 {
     const int size = animation->mNumChannels;
@@ -73,7 +76,7 @@ void zar::Animation::read_missing_bones(const aiAnimation* animation,
     m_bone_info_map_ = bone_info_map;
 }
 
-void zar::Animation::read_heirarchy_data(AssimpNodeData& dest, const aiNode* src)
+void zar::GLAnimation::read_heirarchy_data(AssimpNodeData& dest, const aiNode* src)
 {
     assert(src);
 

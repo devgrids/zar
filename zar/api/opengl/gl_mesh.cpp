@@ -1,90 +1,86 @@
 ﻿#include "gl_mesh.h"
 
-zar::GLMesh::GLMesh(Vertices& vertices, Indices& indices, const bool enable_bones)
+zar::GLMesh::GLMesh(const std::vector<Vertex> vertices, const std::vector<unsigned> indices, const std::vector<Material>
+                materials)
 {
-    vertex_count_ = vertices.size();
-    element_count_ = indices.size();
+    this->vertices = vertices;
+    this->indices = indices;
+    this->materials = materials;
 
-    glGenVertexArrays(1, &buffer_object_);
-    glBindVertexArray(buffer_object_);
+    setup_mesh();
+}
 
-    uint32_t vertexBufferID = 0;
-    glGenBuffers(1, &vertexBufferID);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
-    glBufferData(GL_ARRAY_BUFFER, vertex_count_ * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
-
-    uint32_t elementBufferID = 0;
-    glGenBuffers(1, &elementBufferID);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferID);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, element_count_ * sizeof(uint32_t), indices.data(), GL_STATIC_DRAW);
-
-    // position
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
-
-    // normal
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-
-    // texcoords
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, text_coords));
-
-    // tangent
-    glEnableVertexAttribArray(3);
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangent));
-
-    // bitangent
-    glEnableVertexAttribArray(4);
-    glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, bitangent));
-
-    // bones & weight
-    if (enable_bones) {				
-        glEnableVertexAttribArray(5);
-        glVertexAttribPointer(5, 4, GL_FLOAT, GL_INT, sizeof(Vertex), (void*)offsetof(Vertex, bones));
-				
-        glEnableVertexAttribArray(6);
-        glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, weights));
+void zar::GLMesh::draw(const zar::GLShader& shader) const
+{
+    unsigned int diffuse_nr = 1;
+    for (unsigned int i = 0; i < materials.size(); i++)
+    {
+        glActiveTexture(GL_TEXTURE0 + i);
+        std::string number;
+        std::string name = "texture_diffuse";
+        number = std::to_string(diffuse_nr++);
+        glUniform1i(glGetUniformLocation(shader.get_id(), (name + number).c_str()), i);
+        glBindTexture(GL_TEXTURE_2D, materials[i].diffuse_map.id);
     }
+    draw_elements();
+    glActiveTexture(GL_TEXTURE0);
+}
 
+void zar::GLMesh::destroy_buffer() const
+{
+    glDeleteVertexArrays(1, &vao);
+}
+
+void zar::GLMesh::draw_elements(const GLenum mode) const
+{
+    glBindVertexArray(vao);
+    glDrawElements(mode, static_cast<unsigned int>(indices.size()), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }
 
-void zar::GLMesh::set_name(const char* name)
+void zar::GLMesh::draw_arrays(const GLenum mode) const
 {
-    name_ = name;
-}
-
-const std::string& zar::GLMesh::name()
-{
-    return name_;
-}
-
-void zar::GLMesh::set_material_index(uint32_t index)
-{
-    material_index_ = index;
-}
-
-int zar::GLMesh::material_index()
-{
-    return material_index_;
-}
-
-void zar::GLMesh::destroy_buffer()
-{
-    glDeleteVertexArrays(1, &buffer_object_);
-}
-
-void zar::GLMesh::draw_elements(GLenum mode)
-{
-    glBindVertexArray(buffer_object_);
-    glDrawElements(mode, element_count_, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(vao);
+    glDrawArrays(mode, 0, static_cast<unsigned int>(vertices.size()));
     glBindVertexArray(0);
 }
 
-void zar::GLMesh::draw_arrays(GLenum mode)
+void zar::GLMesh::setup_mesh()
 {
-    glBindVertexArray(buffer_object_);
-    glDrawArrays(mode, 0, vertex_count_);
+    glGenVertexArrays(1, &vao);
+    glGenBuffers(1, &vbo_);
+    glGenBuffers(1, &ebo_);
+
+    glBindVertexArray(vao);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+
+    // vertex Positions
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), static_cast<void*>(0));
+    // vertex normals
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, normal)));
+    // vertex texture coords
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+                          reinterpret_cast<void*>(offsetof(Vertex, text_coords)));
+    // vertex tangent
+    glEnableVertexAttribArray(3);
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, tangent)));
+    // vertex bitangent
+    glEnableVertexAttribArray(4);
+    glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+                          reinterpret_cast<void*>(offsetof(Vertex, bitangent)));
+    // ids
+    glEnableVertexAttribArray(5);
+    glVertexAttribIPointer(5, 4, GL_INT, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, bones)));
+
+    // weights
+    glEnableVertexAttribArray(6);
+    glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, weights)));
     glBindVertexArray(0);
 }

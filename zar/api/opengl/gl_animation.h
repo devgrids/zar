@@ -5,10 +5,11 @@
 #include <glm/glm.hpp>
 #include <assimp/scene.h>
 
-#include "anim_data.h"
-#include "bone.h"
+
 #include "assimp/Importer.hpp"
 #include "assimp/postprocess.h"
+#include "../../data/anim_data.h"
+#include "../../data/bone.h"
 
 namespace zar
 {
@@ -20,15 +21,15 @@ namespace zar
         std::vector<AssimpNodeData> children;
     };
 
-    class ZAR_API Animation
+    class ZAR_API GLAnimation
     {
     public:
-        Animation() = default;
-        Animation(const std::string& animation_path, std::unordered_map<std::string, zar::BoneInfo>& bone_info_map,
+        GLAnimation() = default;
+        GLAnimation(const std::string& animation_path, std::unordered_map<std::string, zar::BoneInfo>& bone_info_map,
                   int& bone_count);
-        ~Animation();
+        ~GLAnimation();
 
-        zar::Bone* find_bone(const std::string& name);
+        Bone* find_bone(const std::string& name);
         ZAR_INLINE float get_ticks_per_second() const;
         ZAR_INLINE float get_duration() const;
         ZAR_INLINE const AssimpNodeData& get_root_node();
@@ -45,4 +46,5 @@ namespace zar
         AssimpNodeData m_root_node_;
         std::unordered_map<std::string, zar::BoneInfo> m_bone_info_map_;
     };
+    
 }

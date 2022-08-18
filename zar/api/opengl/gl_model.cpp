@@ -1,28 +1,30 @@
-﻿#include "Model.h"
+﻿#include "gl_model.h"
 
-zar::Model::Model(const bool gamma)
+#include "data/assimp_glm_helpers.h"
+
+zar::GLModel::GLModel(const bool gamma)
     : gamma_correction(gamma)
 {
 
 }
 
-void zar::Model::draw(zar::GLShader& shader)
+void zar::GLModel::draw(const zar::GLShader& shader) const
 {
     for (auto& mesh : meshes)
-        mesh.Draw(shader);
+        mesh.draw(shader);
 }
 
-std::unordered_map<std::string, zar::BoneInfo>& zar::Model::get_bone_info_map()
+std::unordered_map<std::string, zar::BoneInfo>& zar::GLModel::get_bone_info_map()
 {
     return m_bone_info_map_;
 }
 
-int& zar::Model::get_bone_count()
+int& zar::GLModel::get_bone_count()
 {
     return m_bone_counter_;
 }
 
-auto zar::Model::set_vertex_bone_data_to_default(Vertex& vertex) -> void
+void zar::GLModel::set_vertex_bone_data_to_default(Vertex& vertex)
 {
     for (int i = 0; i < MAX_BONE_INFLUENCE; i++)
     {
@@ -31,7 +33,7 @@ auto zar::Model::set_vertex_bone_data_to_default(Vertex& vertex) -> void
     }
 }
 
-zar::Mesh zar::Model::process_mesh(aiMesh* mesh)
+zar::GLMesh zar::GLModel::process_mesh(aiMesh* mesh)
 {
     auto vertices = get_vertices(mesh);
     auto indices = get_indices(mesh);
@@ -40,9 +42,9 @@ zar::Mesh zar::Model::process_mesh(aiMesh* mesh)
     return {vertices, indices, textures};
 }
 
-vector<zar::Vertex> zar::Model::get_vertices(const aiMesh* mesh)
+std::vector<zar::Vertex> zar::GLModel::get_vertices(const aiMesh* mesh)
 {
-    vector<Vertex> vertices;
+    std::vector<Vertex> vertices;
     for (unsigned int i = 0; i < mesh->mNumVertices; i++)
     {
         Vertex vertex;
@@ -65,9 +67,9 @@ vector<zar::Vertex> zar::Model::get_vertices(const aiMesh* mesh)
     return vertices;
 }
 
-vector<unsigned> zar::Model::get_indices(const aiMesh* mesh)
+std::vector<unsigned> zar::GLModel::get_indices(const aiMesh* mesh)
 {
-    vector<unsigned int> indices;
+    std::vector<unsigned int> indices;
     for (unsigned int i = 0; i < mesh->mNumFaces; i++)
     {
         const aiFace face = mesh->mFaces[i];
@@ -77,13 +79,13 @@ vector<unsigned> zar::Model::get_indices(const aiMesh* mesh)
     return indices;
 }
 
-vector<zar::Material> zar::Model::process_materials(aiMesh* mesh)
+std::vector<zar::Material> zar::GLModel::process_materials(aiMesh* mesh)
 {
     return {};
 }
 
 
-void zar::Model::set_vertex_bone_data(zar::Vertex& vertex, const int bone_id, const float weight)
+void zar::GLModel::set_vertex_bone_data(zar::Vertex& vertex, const int bone_id, const float weight)
 {
     for (int i = 0; i < MAX_BONE_INFLUENCE; ++i)
     {
@@ -96,7 +98,7 @@ void zar::Model::set_vertex_bone_data(zar::Vertex& vertex, const int bone_id, co
     }
 }
 
-void zar::Model::extract_bone_weight_for_vertices(std::vector<Vertex>& vertices, const aiMesh* mesh)
+void zar::GLModel::extract_bone_weight_for_vertices(std::vector<Vertex>& vertices, const aiMesh* mesh)
 {
     auto& bone_info_map = m_bone_info_map_;
     int& bone_count = m_bone_counter_;

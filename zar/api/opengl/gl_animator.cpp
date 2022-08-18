@@ -1,6 +1,6 @@
-﻿#include "animator.h"
+﻿#include "gl_animator.h"
 
-zar::Animator::Animator(Animation* animation)
+zar::GLAnimator::GLAnimator(GLAnimation* animation)
 {
     m_current_time_ = 0.0;
     m_current_animation_ = animation;
@@ -11,7 +11,7 @@ zar::Animator::Animator(Animation* animation)
         m_final_bone_matrices_.push_back(glm::mat4(1.0f));
 }
 
-void zar::Animator::update_animation(const float dt)
+void zar::GLAnimator::update_animation(const float dt)
 {
     m_delta_time_ = dt;
     if (m_current_animation_)
@@ -22,13 +22,13 @@ void zar::Animator::update_animation(const float dt)
     }
 }
 
-void zar::Animator::play_animation(Animation* p_animation)
+void zar::GLAnimator::play_animation(GLAnimation* p_animation)
 {
     m_current_animation_ = p_animation;
     m_current_time_ = 0.0f;
 }
 
-void zar::Animator::calculate_bone_transform(const AssimpNodeData* node, glm::mat4 parentTransform)
+void zar::GLAnimator::calculate_bone_transform(const AssimpNodeData* node, glm::mat4 parentTransform)
 {
     const std::string node_name = node->name;
     glm::mat4 node_transform = node->transformation;
@@ -54,7 +54,7 @@ void zar::Animator::calculate_bone_transform(const AssimpNodeData* node, glm::ma
         calculate_bone_transform(&node->children[i], global_transformation);
 }
 
-std::vector<glm::mat4> zar::Animator::get_final_bone_matrices() const
+std::vector<glm::mat4> zar::GLAnimator::get_final_bone_matrices() const
 {
     return m_final_bone_matrices_;
 }
