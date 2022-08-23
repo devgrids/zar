@@ -1,5 +1,7 @@
 ﻿#include "gl_camera.h"
 
+#include <glm/ext/matrix_clip_space.hpp>
+
 zar::GLCamera::GLCamera(glm::vec3 position, glm::vec3 up, float yaw, float pitch)
     : front(glm::vec3(0.0f, 0.0f, -1.0f)), movement_speed(SPEED), mouse_sensitivity(SENSITIVITY), zoom(ZOOM)
 {
@@ -29,6 +31,12 @@ zar::GLCamera::~GLCamera()
 glm::mat4 zar::GLCamera::get_view_matrix() const
 {
     return glm::lookAt(position, position + front, up);
+}
+
+glm::mat4 zar::GLCamera::get_projection_matrix(const float aspect) const
+{
+    return glm::perspective(glm::radians(zoom), aspect, 0.1f,
+                            100.0f);
 }
 
 void zar::GLCamera::process_keyboard(const Camera_Movement direction, const float delta_time)

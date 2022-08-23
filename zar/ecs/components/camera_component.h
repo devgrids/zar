@@ -14,7 +14,7 @@ namespace zar
         ZAR_INLINE CameraComponent(const CameraComponent&) = default;
         ZAR_INLINE CameraComponent(GLCamera* camera);
         ZAR_INLINE CameraComponent(GLCamera camera);
- 
+
         ZAR_INLINE void start() override;
         ZAR_INLINE void update() override;
     public:
