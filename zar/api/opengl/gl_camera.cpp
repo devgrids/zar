@@ -71,9 +71,9 @@ void zar::GLCamera::process_mouse_movement(float xoffset, float yoffset, const G
     update_camera_vectors();
 }
 
-void zar::GLCamera::process_mouse_scroll(float yoffset)
+void zar::GLCamera::process_mouse_scroll(const float yoffset)
 {
-    zoom -= (float)yoffset;
+    zoom -= static_cast<float>(yoffset);
     if (zoom < 1.0f)
         zoom = 1.0f;
     if (zoom > 45.0f)
