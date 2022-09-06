@@ -6,6 +6,7 @@ Zar is a library designed to reuse classes and facilitate programming.
 Locate the path of your project and in the console write the following command:
 ```bash
 git submodule add https://github.com/devgrids/zar
+git submodule update --init --recursive
 ```
 Add the following code to your project's CMakeLists.txt file:
 ```bash
