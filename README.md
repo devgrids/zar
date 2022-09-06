@@ -3,7 +3,11 @@
 ## Summary
 Zar is a library designed to reuse classes and facilitate programming.
 ## How to add the library to your project?
-Add the following commands to your project's CMakeLists.txt file:
+Locate the path of your project and in the console write the following command:
+```bash
+git submodule add https://github.com/devgrids/zar
+```
+Add the following code to your project's CMakeLists.txt file:
 ```bash
 add_subdirectory(zar)
 ...
