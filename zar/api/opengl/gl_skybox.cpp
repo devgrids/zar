@@ -2,18 +2,18 @@
 
 zar::GLSkybox::GLSkybox()
 {
-    this->name_skybox_ = name_skybox_;
+    // this->name_skybox_ = name_skybox_;
     // this->shader = *Util::Instance()->myShaders[ShaderType::CUBE_MAP];
     // this->skyboxShader = *Util::Instance()->myShaders[ShaderType::SKYBOX];
 
     // load_skybox(name_skybox_, type);
-    config_cube_map();
-    config_shader();
+    // config_cube_map();
+    // config_shader();
 }
 
 void zar::GLSkybox::render(GLCamera& camera, glm::vec3 ambient)
 {
-    shader_.use();
+    // shader_.use();
     glm::mat4 model = glm::mat4(1.0f);
     // glm::mat4 view = camera.GetViewMatrix();
     // glm::mat4 projection = glm::perspective(glm::radians(camera.FOV), (float)WIDTH / (float)HEIGHT, camera.NEAR,

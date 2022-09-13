@@ -2,6 +2,10 @@
 
 namespace zar
 {
+    GLShader::GLShader()
+    {
+    }
+
     GLShader::GLShader(const char* vertex_path, const char* fragment_path)
     {
         std::string vertex_code;

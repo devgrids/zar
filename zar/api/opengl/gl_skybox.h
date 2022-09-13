@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "gl_camera.h"
-#include "gl_shader.h"
 
 namespace zar
 {
@@ -106,8 +105,8 @@ namespace zar
     private:
         std::string name_skybox_;
 
-        GLShader shader_;
-        GLShader skybox_shader_;
+        // GLShader shader_;
+        // GLShader skybox_shader_;
 
         unsigned int cubemap_texture_{};
         unsigned int cube_vao_{}, cube_vbo_{};

@@ -11,6 +11,7 @@ namespace zar
     class ZAR_API GLShader
     {
     public:
+        ZAR_INLINE GLShader();
         ZAR_INLINE GLShader(const char* vertex_path, const char* fragment_path);
         ZAR_INLINE unsigned get_id() const;
         ZAR_INLINE void use() const;
